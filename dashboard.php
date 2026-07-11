@@ -15,6 +15,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 
 $user = $_SESSION['user'];
 $role = $_SESSION['role'] ?? 'inventor';
+
+// Handle profile picture upload
+$pictureUploadError = '';
+$pictureUploadSuccess = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] !== UPLOAD_ERR_NO_FILE) {
+    if ($_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
+        $file = $_FILES['profile_picture'];
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        
+        if (!in_array($ext, $allowed, true)) {
+            $pictureUploadError = 'Only image files (JPG, PNG, GIF, WebP) are allowed.';
+        } else if ($file['size'] > 5242880) { // 5MB limit
+            $pictureUploadError = 'File size must be under 5MB.';
+        } else {
+            $uploadDir = __DIR__ . '/data/profile_pictures';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            $filename = 'profile_' . $user . '_' . time() . '.' . $ext;
+            $filepath = $uploadDir . '/' . $filename;
+            
+            if (move_uploaded_file($file['tmp_name'], $filepath)) {
+                // Delete old picture if exists
+                $oldProfile = getUserProfile($user);
+                if (!empty($oldProfile['profile_picture'])) {
+                    $oldPath = $uploadDir . '/' . $oldProfile['profile_picture'];
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
+                
+                updateUserProfile($user, ['profile_picture' => $filename]);
+                appendAdminLog("PROFILE_PICTURE_UPLOAD user={$user} file={$filename}");
+                $pictureUploadSuccess = 'Profile picture updated successfully.';
+            } else {
+                $pictureUploadError = 'Failed to upload file.';
+            }
+        }
+    } else {
+        $pictureUploadError = 'Upload error. Please try again.';
+    }
+}
+
 $users = loadUsers();
 $posts = loadPosts();
 $profile = getUserProfile($user);
@@ -27,37 +72,11 @@ $stats = [
     'my_posts' => count($myPosts),
 ];
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - HYDROBOTICS</title>
-    <link rel="stylesheet" href="css/theme.css?v=2">
-    <style>
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef5fb; color: #102a43; }
-        .page { max-width: 1180px; margin: 0 auto; padding: 2rem; }
-        .top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
-        .top h1 { margin: 0; }
-        .welcome { background: white; padding: 1.75rem 2rem; border-radius: 18px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
-        .stat-card { background: white; border-radius: 18px; padding: 1.4rem 1.6rem; box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06); }
-        .stat-card h3 { margin: 0 0 0.5rem; }
-        .panel { background: white; border-radius: 18px; padding: 1.75rem; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); margin-top: 1.75rem; }
-        .panel h2 { margin-top: 0; }
-        .my-posts { list-style: none; margin: 0; padding: 0; }
-        .my-posts li { padding: 1rem 0; border-bottom: 1px solid #e6eef6; }
-        .my-posts li:last-child { border-bottom: none; }
-        .my-posts strong { display: block; margin-bottom: 0.35rem; }
-        .btn { display: inline-block; padding: 0.9rem 1.4rem; border-radius: 14px; background: #00a8e8; color: white; text-decoration: none; font-weight: 700; }
-        .logout { border: none; background: #ff6b6b; padding: 0.9rem 1.4rem; border-radius: 14px; color: white; cursor: pointer; }
-        a { color: #0d3b66; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        @media (max-width: 760px) { .top { flex-direction: column; align-items: stretch; } }
-    </style>
-</head>
-<body>
+<?php
+$page_title = 'Dashboard - HYDROBOTICS';
+include 'header.php';
+?>
+
     <div class="page">
         <div class="top">
             <div>
@@ -77,22 +96,65 @@ $stats = [
             <p>From the dashboard, you can view your account data, access the social feed, and track your posts and the HYDROBOTICS community activity.</p>
         </div>
 
-        <div style="background: white; border-radius: 18px; padding: 1.5rem; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); margin-bottom: 1.5rem;">
-            <h2 style="margin-top: 0;">Your Profile</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
-                <div>
-                    <strong>Gender:</strong> <?php echo htmlspecialchars($profile['gender'] === 'not-specified' || !$profile['gender'] ? 'Not specified' : ucfirst($profile['gender'])); ?>
-                </div>
-                <div>
-                    <strong>Age:</strong> <?php echo $profile['age'] ? htmlspecialchars($profile['age']) : 'Not specified'; ?>
-                </div>
-                <div>
-                    <strong>Location:</strong> <?php echo $profile['location'] ? htmlspecialchars($profile['location']) : 'Not specified'; ?>
-                </div>
+        <?php if ($pictureUploadError): ?>
+            <div style="background: #ffe3e3; color: #9d2b2b; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                <?php echo htmlspecialchars($pictureUploadError); ?>
             </div>
-            <p style="color: #627d98; font-size: 0.9rem; margin-top: 1rem;">
-                <a href="settings.php">Edit your profile and privacy settings</a>
-            </p>
+        <?php endif; ?>
+        <?php if ($pictureUploadSuccess): ?>
+            <div style="background: #e6ffed; color: #1f6f34; padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                <?php echo htmlspecialchars($pictureUploadSuccess); ?>
+            </div>
+        <?php endif; ?>
+
+        <div style="background: white; border-radius: 18px; padding: 2rem; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); margin-bottom: 1.5rem; display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start;">
+            <div style="text-align: center;">
+                <?php 
+                    $profilePicPath = '';
+                    $profilePicFile = '';
+                    if (!empty($profile['profile_picture'])) {
+                        $profilePicPath = 'data/profile_pictures/' . htmlspecialchars($profile['profile_picture']);
+                        $profilePicFile = __DIR__ . '/' . $profilePicPath;
+                    }
+                ?>
+                <?php if ($profilePicPath && file_exists($profilePicFile)): ?>
+                    <img src="<?php echo $profilePicPath; ?>" alt="<?php echo htmlspecialchars($user); ?>" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid #00a8e8; margin-bottom: 1rem;">
+                <?php else: ?>
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #00a8e8, #0d3b66); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 2.5rem; margin: 0 auto 1rem; border: 3px solid #00a8e8;">
+                        <?php echo htmlspecialchars(strtoupper(substr($user, 0, 2))); ?>
+                    </div>
+                <?php endif; ?>
+                <form id="profile_picture_form" method="POST" enctype="multipart/form-data" style="margin-top: 1rem;">
+                    <input type="file" name="profile_picture" accept="image/*" style="display: none;" id="profile_picture_input" onchange="this.form.submit();">
+                    <button type="button" style="padding: 0.7rem 1rem; background: #00a8e8; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;" onclick="document.getElementById('profile_picture_input').click();">
+                        📷 Change Photo
+                    </button>
+                </form>
+                <p style="color: #627d98; font-size: 0.85rem; margin-top: 0.5rem;">Choose a JPG, PNG, GIF, or WebP image (max 5MB). Uploads automatically.</p>
+            </div>
+            <div>
+                <h2 style="margin-top: 0;">Your Profile</h2>
+                <div style="display: grid; gap: 1rem;">
+                    <div>
+                        <strong style="color: #0d243a;">Username:</strong> <?php echo htmlspecialchars($user); ?>
+                    </div>
+                    <div>
+                        <strong style="color: #0d243a;">Account Type:</strong> <?php echo htmlspecialchars($profile['role'] ?? 'inventor'); ?>
+                    </div>
+                    <div>
+                        <strong style="color: #0d243a;">Gender:</strong> <?php echo htmlspecialchars($profile['gender'] === 'not-specified' || !$profile['gender'] ? 'Not specified' : ucfirst($profile['gender'])); ?>
+                    </div>
+                    <div>
+                        <strong style="color: #0d243a;">Age:</strong> <?php echo $profile['age'] ? htmlspecialchars($profile['age']) : 'Not specified'; ?>
+                    </div>
+                    <div>
+                        <strong style="color: #0d243a;">Location:</strong> <?php echo $profile['location'] ? htmlspecialchars($profile['location']) : 'Not specified'; ?>
+                    </div>
+                </div>
+                <p style="color: #627d98; font-size: 0.9rem; margin-top: 1.5rem;">
+                    <a href="settings.php" style="color: #00a8e8; text-decoration: none; font-weight: 600;">Edit all profile settings</a>
+                </p>
+            </div>
         </div>
 
         <div class="stats">
@@ -101,7 +163,7 @@ $stats = [
                 <p><?php echo $stats['users']; ?></p>
             </div>
             <div class="stat-card">
-                <h3>Total Feed Posts</h3>
+                <h3>Total Feed Posts</h3>a
                 <p><?php echo $stats['posts']; ?></p>
             </div>
             <div class="stat-card">
@@ -164,6 +226,5 @@ $stats = [
             </div>
         </div>
     </div>
-<?php include 'ai_chatbot_widget.php'; ?>
-</body>
-</html>
+<?php include 'footer.php'; ?>
+

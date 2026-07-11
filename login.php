@@ -101,35 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login / Register - HYDROBOTICS</title>
-    <link rel="stylesheet" href="css/theme.css?v=2">
-    <style>
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f3f7fb; color: #102a43; }
-        .page { max-width: 1040px; margin: 0 auto; padding: 2rem; }
-        .header { text-align: center; margin-bottom: 2rem; }
-        .card { background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(16, 49, 86, 0.08); overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; }
-        .panel { padding: 2rem; }
-        .panel h2 { margin-bottom: 1rem; color: #0d243a; }
-        .panel p { margin-bottom: 1.5rem; line-height: 1.7; color: #334e68; }
-        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #0d243a; }
-        input, select { width: 100%; padding: 0.9rem 1rem; margin-bottom: 1rem; border: 1px solid #dfe7ef; border-radius: 14px; }
-        button { width: 100%; padding: 0.95rem 1rem; border: none; color: white; background: #00a8e8; border-radius: 14px; font-weight: 700; cursor: pointer; }
-        button:hover { opacity: 0.95; }
-        .error { background: #ffe3e3; color: #9d2b2b; border-radius: 14px; padding: 1rem; margin-bottom: 1rem; }
-        .note { color: #627d98; font-size: 0.95rem; }
-        .links { margin-top: 1.5rem; }
-        .links a { color: #00a8e8; text-decoration: none; }
-        .links a:hover { text-decoration: underline; }
-        @media (max-width: 900px) { .card { grid-template-columns: 1fr; } }
-    </style>
-</head>
-<body>
+<?php
+$page_title = 'Login / Register - HYDROBOTICS';
+include 'header.php';
+?>
+
     <div class="page">
         <div class="header">
             <h1>Login or Register</h1>
@@ -252,6 +228,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         </script>
     </div>
-<?php include 'ai_chatbot_widget.php'; ?>
-</body>
-</html>
+<?php include 'footer.php'; ?>
+

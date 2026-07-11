@@ -25,25 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Login - HYDROBOTICS</title>
-    <link rel="stylesheet" href="css/theme.css?v=2">
-    <style>
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f8ff; color: #102a43; }
-        .page { max-width: 480px; margin: 6rem auto; padding: 2rem; }
-        .card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(15,23,42,0.06); }
-        label { display:block; margin-top:0.75rem; color:#0d243a; font-weight:600; }
-        input { width:100%; padding:0.85rem 1rem; border:1px solid #e6eef6; border-radius:10px; margin-top:0.35rem; }
-        button { margin-top:1rem; width:100%; padding:0.9rem; border:none; background:#0d6efd; color:white; border-radius:10px; font-weight:700; cursor:pointer; }
-        .error { background:#ffe3e3; color:#9d2b2b; padding:0.9rem; border-radius:8px; margin-top:0.75rem; }
-        .note { color:#627d98; margin-top:0.75rem; font-size:0.95rem; }
-    </style>
-</head>
-<body>
+<?php
+$page_title = 'Admin Login - HYDROBOTICS';
+include 'header.php';
+?>
+
     <div class="page">
         <div class="card">
             <h2>Administrator Login</h2>
@@ -60,6 +46,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </div>
-<?php include 'ai_chatbot_widget.php'; ?>
-</body>
-</html>
+<?php include 'footer.php'; ?>
+

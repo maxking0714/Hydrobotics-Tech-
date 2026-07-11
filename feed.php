@@ -229,86 +229,11 @@ if ($userLocation && $userProfile && ($userProfile['show_location'] ?? 0)) {
     $sortedPosts = array_merge($localPosts, $otherPosts);
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HYDROBOTICS Social Feed</title>
-    <link rel="stylesheet" href="css/theme.css?v=2">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(180deg, #f3f8ff 0%, #e5f0ff 45%, #eef7fb 100%); color: #102a43; }
-        .topbar { background: #1b2a4a; color: #e8f1ff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 1rem 2rem; box-shadow: 0 20px 50px rgba(13, 27, 42, 0.18); }
-        .topbar .brand { font-size: 1.65rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; }
-        .topbar nav a { color: #e8f1ff; text-decoration: none; margin-left: 1.25rem; font-weight: 600; }
-        .topbar nav a:hover { color: #7ad7ff; }
-        .layout { display: grid; grid-template-columns: 1.15fr 320px; gap: 1.5rem; padding: 2rem; max-width: 1270px; margin: 0 auto; }
-        .panel { background: rgba(255,255,255,0.95); border-radius: 24px; padding: 1.75rem; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12); border: 1px solid rgba(255,255,255,0.55); }
-        .panel h2 { margin-top: 0; font-size: 2rem; letter-spacing: 0.4px; }
-        .feed-card { margin-bottom: 1rem; border-radius: 18px; overflow: hidden; background: #ffffff; box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06); }
-        .feed-card:last-child { margin-bottom: 0; }
-        .card-header { padding: 0.65rem 0.9rem; display: flex; align-items: center; gap: 0.6rem; background: linear-gradient(90deg, #eef7ff 0%, #f3faff 100%); }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #00a8e8, #0d3b66); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.9rem; }
-        .author { display: grid; gap: 0.18rem; }
-        .author strong { font-size: 0.98rem; }
-        .author small { color: #627d98; }
-        .card-body { padding: 0.75rem 0.9rem; line-height: 1.5; color: #334e68; font-size: 0.95rem; }
-        .card-actions { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1.25rem; background: #f7fbff; color: #334e68; font-size: 0.95rem; }
-        .card-actions span { display: inline-flex; align-items: center; gap: 0.4rem; }
-        .btn { display: inline-block; padding: 0.6rem 1rem; border-radius: 999px; background: #00a8e8; color: white; text-decoration: none; font-weight: 700; transition: opacity 0.15s; font-size:0.95rem }
-        .btn:hover { opacity: 0.9; }
-        .status-box { background: #f8fbff; border: 1px solid #dbe7f0; border-radius: 14px; padding: 1rem; margin-bottom: 1rem; }
-        .status-box textarea, .status-box input { width: 100%; border: 1px solid #cfdce5; border-radius: 12px; padding: 0.75rem; margin-bottom: 0.75rem; font-size: 0.92rem; }
-        .status-box textarea { min-height: 90px; resize: vertical; }
-        .status-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.9rem; }
-        .status-pill { background: #e1f2ff; color: #0d3b66; border-radius: 999px; padding: 0.7rem 1rem; font-size: 0.9rem; }
-        .section-label { display: inline-block; margin-bottom: 0.85rem; color: #627d98; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
-        .emoji-toggle-btn { background: #00a8e8; border: none; color: white; border-radius: 12px; padding: 0.7rem 1rem; cursor: pointer; font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; }
-        .emoji-toggle-btn:hover { background: #0099d5; }
-        .emoji-picker { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 18px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15); padding: 1.5rem; z-index: 1000; min-width: 320px; max-width: 500px; }
-        .emoji-picker.active { display: block; }
-        .emoji-picker-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.3); z-index: 999; }
-        .emoji-picker-overlay.active { display: block; }
-        .emoji-picker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-        .emoji-picker-header h3 { margin: 0; }
-        .emoji-picker-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
-        .emoji-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 0.5rem; }
-        .emoji-item { background: #eef6ff; border: 1px solid #dbe7f0; color: #0d3b66; border-radius: 12px; padding: 0.7rem; cursor: pointer; font-size: 1.3rem; text-align: center; transition: all 0.2s; }
-        .emoji-item:hover { background: #d9edff; transform: scale(1.1); }
-        .story-media { border-radius: 16px; overflow: hidden; }
-        .story-media img, .story-media video { width: 100%; display: block; border-radius: 12px; }
-        .post-video { width:100%; display:block; max-height:320px; object-fit:cover; border-radius:12px; }
-        .post-audio { width:100%; }
-        .image-overlay { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; background: rgba(0, 0, 0, 0.55); color: white; border-radius: 12px; padding: 0.9rem 1rem; font-size: 0.95rem; line-height: 1.35; text-align: center; }
-        .edit-story-panel { border-radius: 14px; }
-        .btn-outline { background: transparent; color: var(--accent); border: 2px solid var(--accent); }
-        .activity-item { padding: 1rem; border-radius: 14px; background: #f7fbff; border: 1px solid #dbe7f0; margin-bottom: 0.9rem; }
-        .small-link { color: #0d3b66; text-decoration: none; font-weight: 700; }
-        .small-link:hover { text-decoration: underline; }
-        .error { background: #ffe3e3; color: #9d2b2b; border-radius: 14px; padding: 1rem; margin-bottom: 1rem; }
-        .call-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 200; }
-        .call-box { background: white; border-radius: 18px; padding: 2rem; width: min(440px, calc(100% - 2rem)); text-align: center; box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2); }
-        .call-box h3 { margin-top: 0; }
-        .call-box button { width: auto; margin-top: 1rem; }
-        @media (max-width: 980px) { .layout { grid-template-columns: 1fr; } }
-    </style>
-</head>
-<body>
-    <header class="topbar">
-        <div class="brand">HYDROBOTICS Social</div>
-        <nav>
-            <a href="HOMEPAGE.PHP">Home</a>
-            <a href="feed.php">🏠 Feed</a>
-            <a href="account.php">👤 Account</a>
-            <a href="chat.php">💬 Chat</a>
-            <a href="videos.php">🎬 Videos</a>
-            <a href="dashboard.php">Dashboard</a>
-        </nav>
-    </header>
+<?php
+$page_title = 'HYDROBOTICS Social Feed';
+include 'header.php';
+?>
+
     <main class="layout">
         <section class="panel">
             <div class="section-label">Community Feed</div>
@@ -371,7 +296,17 @@ if ($userLocation && $userProfile && ($userProfile['show_location'] ?? 0)) {
                     <?php $likedByUser = in_array($user, $post['likes'] ?? [], true); ?>
                     <div class="feed-card">
                         <div class="card-header">
-                            <div class="avatar"><?php echo htmlspecialchars(substr($post['author'], 0, 2)); ?></div>
+                            <?php 
+                                $profilePicPath = '';
+                                if (!empty($postAuthorProfile['profile_picture'])) {
+                                    $profilePicPath = 'data/profile_pictures/' . htmlspecialchars($postAuthorProfile['profile_picture']);
+                                }
+                            ?>
+                            <?php if ($profilePicPath && file_exists($profilePicPath)): ?>
+                                <img src="<?php echo $profilePicPath; ?>" alt="<?php echo htmlspecialchars($post['author']); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #dbe7f0;">
+                            <?php else: ?>
+                                <div class="avatar"><?php echo htmlspecialchars(substr($post['author'], 0, 2)); ?></div>
+                            <?php endif; ?>
                             <div class="author">
                                 <strong><?php echo htmlspecialchars($post['author']); ?></strong>
                                 <small>
@@ -662,6 +597,5 @@ if ($userLocation && $userProfile && ($userProfile['show_location'] ?? 0)) {
             applyAutoplaySetting(enabled);
         });
     </script>
-<?php include 'ai_chatbot_widget.php'; ?>
-</body>
-</html>
+<?php include 'footer.php'; ?>
+
