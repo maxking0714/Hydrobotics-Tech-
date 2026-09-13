@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventor Community - HYDROBOTICS</title>
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body data-page="inventor-community">
+  <nav>
+    <div class="nav-left">
+      <a class="logo" href="index.html">HYDROBOTICS</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="inventor.html">Inventor Portal</a></li>
+        <li><a href="inventor-community.html">Community Feed</a></li>
+        <li><a href="feed.html">Social Feed</a></li>
+        <li><a href="settings.html">Settings</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <span id="userChip" class="user-chip" hidden>Logged in</span>
+      <a id="authLink" class="btn-secondary" href="login.html">Login</a>
+    </div>
+  </nav>
+  <main class="page">
+    <section class="hero inventor-hero community-hero">
+      <p class="eyebrow">HYDROBOTICS Network</p>
+      <h1>Find the people who can move your idea forward</h1>
+      <p>Connect directly with inventors, businesses, investors, manufacturers, and technical partners around real opportunities.</p>
+    </section>
+
+    <div class="community-layout">
+      <section class="panel community-composer">
+        <div class="community-section-kicker">Start a conversation</div>
+        <h2>Post an opportunity</h2>
+        <p class="text-muted">Tell the right people what you are building, funding, supplying, or looking for.</p>
+        <div id="communityMessage"></div>
+        <form id="communityPostForm" class="form-card">
+          <div class="form-row"><label for="communityPostRole">I am a...</label><select id="communityPostRole"><option value="inventor">Inventor</option><option value="business">Business</option><option value="investor">Investor</option><option value="manufacturer">Manufacturer</option><option value="technical partner">Technical partner</option></select></div>
+          <div class="form-row"><label for="communityPostType">Post type</label><select id="communityPostType"><option value="proposal">Project proposal</option><option value="service">Manufacturing or parts service</option><option value="special">Special offer</option><option value="help">Request project help</option></select></div>
+          <div class="form-row"><label for="communityPostTitle">Title</label><input id="communityPostTitle" required type="text" placeholder="What are you offering or building?"></div>
+          <div class="form-row"><label for="communityPostBody">Details</label><textarea id="communityPostBody" required placeholder="Share a clear, high-level description, price or deadline when relevant."></textarea></div>
+          <div class="form-row"><label for="communityPostContact">Contact or next step</label><input id="communityPostContact" required type="text" placeholder="How should people respond?"></div>
+          <label class="consent-checks"><span><input id="communityPostClosed" type="checkbox"> Mark this as a closed-deal conversation. I will only share protected information with agreed participants.</span></label>
+          <button type="submit">Publish Post</button>
+        </form>
+      </section>
+      <aside class="panel community-aside">
+        <div class="community-section-kicker">Meet the network</div>
+        <h2>Who can you contact?</h2>
+        <div class="network-roles">
+          <div><strong>Inventors</strong><span>Share prototypes and find collaborators.</span></div>
+          <div><strong>Businesses</strong><span>Find solutions, suppliers, and talent.</span></div>
+          <div><strong>Investors</strong><span>Discover practical ideas and teams.</span></div>
+          <div><strong>Partners</strong><span>Offer design, manufacturing, or logistics.</span></div>
+        </div>
+        <a class="community-link" href="inventor.html#create-profile"><strong>Build your contact profile</strong><span>Show your skills, project, or investment focus.</span></a>
+      </aside>
+    </div>
+
+    <section class="community-feed-section">
+      <div class="section-heading-row"><div><div class="community-section-kicker">Open conversations</div><h2>Find your next connection</h2><p class="text-muted">Browse people looking to build, fund, supply, or solve something.</p></div><button id="refreshCommunityFeed" class="btn-secondary" type="button">Refresh</button></div>
+      <div class="community-filters" role="group" aria-label="Filter community opportunities">
+        <button class="community-filter active" type="button" data-community-filter="all">All</button>
+        <button class="community-filter" type="button" data-community-filter="inventor">Inventors</button>
+        <button class="community-filter" type="button" data-community-filter="business">Businesses</button>
+        <button class="community-filter" type="button" data-community-filter="investor">Investors</button>
+        <button class="community-filter" type="button" data-community-filter="partner">Partners</button>
+      </div>
+      <div id="communityPosts" class="community-posts"></div>
+    </section>
+  </main>
+  <footer><div class="container"><p>HYDROBOTICS community posts are for collaboration and discovery. Verify all suppliers and agreements independently.</p></div></footer>
+  <script src="js/site.js"></script>
+</body>
+</html>

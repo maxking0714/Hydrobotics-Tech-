@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Register - HYDROBOTICS</title>
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body data-page="login">
+  <nav>
+    <div class="nav-left">
+      <a class="logo" href="index.html">HYDROBOTICS</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="feed.html">Social Feed</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a id="authLink" class="btn-secondary" href="login.html">Login</a>
+    </div>
+  </nav>
+  <main class="page">
+    <section class="panel">
+      <h1 class="section-title">Login or Register</h1>
+      <p class="text-muted">Sign in or create a new account in the browser demo. Your data is saved locally.</p>
+      <div class="auth-tabs">
+        <button id="loginTab" type="button">Login</button>
+        <button id="registerTab" type="button">Register</button>
+      </div>
+      <div id="loginAlert"></div>
+      <form id="loginForm">
+        <div class="form-row">
+          <label for="loginUsername">Username</label>
+          <input id="loginUsername" type="text" required>
+        </div>
+        <div class="form-row">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit">Sign In</button>
+          <a class="btn-secondary" href="index.html">Back to Home</a>
+        </div>
+      </form>
+      <form id="registerForm" hidden>
+        <div class="form-row">
+          <label for="registerUsername">Username</label>
+          <input id="registerUsername" type="text" required>
+        </div>
+        <div class="form-row">
+          <label for="registerPassword">Password</label>
+          <input id="registerPassword" type="password" required>
+        </div>
+        <div class="form-row">
+          <label for="registerEmail">Email</label>
+          <input id="registerEmail" type="email" required>
+        </div>
+        <div class="form-row">
+          <label for="registerLocation">Location</label>
+          <input id="registerLocation" type="text">
+        </div>
+        <div class="form-row">
+          <label for="registerRole">Account Type</label>
+          <select id="registerRole">
+            <option value="member">Member</option>
+            <option value="inventor">Inventor</option>
+            <option value="company">Company</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="registerAge">Age</label>
+          <input id="registerAge" type="number">
+        </div>
+        <div class="form-row">
+          <label for="registerGender">Gender</label>
+          <select id="registerGender">
+            <option>Not specified</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit">Create Account</button>
+          <a class="btn-secondary" href="index.html">Back to Home</a>
+        </div>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <p>HYDROBOTICS static demo for GitHub Pages. Use the tabs above to switch between login and registration.</p>
+    </div>
+  </footer>
+  <script src="js/site.js"></script>
+</body>
+</html>

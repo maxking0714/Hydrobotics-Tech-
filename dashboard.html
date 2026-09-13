@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - HYDROBOTICS</title>
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body data-page="dashboard">
+  <nav>
+    <div class="nav-left">
+      <a class="logo" href="index.html">HYDROBOTICS</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+        <li><a href="feed.html">Social Feed</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <span id="userChip" class="user-chip" hidden>Logged in</span>
+      <a id="authLink" class="btn-secondary" href="login.html">Login</a>
+    </div>
+  </nav>
+  <main class="page">
+    <section class="panel">
+      <h1 class="section-title">Your Dashboard</h1>
+      <p class="text-muted">Access your account summary and community stats after signing in.</p>
+    </section>
+    <section id="dashboardSummary"></section>
+    <section id="dashboardDetails"></section>
+  </main>
+  <footer>
+    <div class="container">
+      <p>HYDROBOTICS static demo for GitHub Pages. Dashboard content updates based on the logged-in user.</p>
+    </div>
+  </footer>
+  <script src="js/site.js"></script>
+</body>
+</html>

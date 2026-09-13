@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social Feed - HYDROBOTICS</title>
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body data-page="feed">
+  <nav class="social-topbar">
+    <div class="nav-left social-brand-wrap">
+      <a class="logo" href="index.html">HYDROBOTICS</a>
+      <div class="nav-search">
+        <span>⌕</span>
+        <input type="text" placeholder="Search HYDROBOTICS" aria-label="Search HYDROBOTICS">
+      </div>
+    </div>
+    <div class="social-main-nav">
+      <a class="active" href="feed.html">Home</a>
+      <a href="inventor.html">Inventors</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="settings.html">Settings</a>
+    </div>
+    <div class="nav-right social-actions">
+      <button class="mini-action">＋</button>
+      <button class="mini-action">🔔</button>
+      <button class="mini-action">💬</button>
+      <a id="authLink" class="btn-secondary" href="login.html">Login</a>
+    </div>
+  </nav>
+  <div id="emojiRainLayer" aria-hidden="true"></div>
+
+  <main class="social-shell page">
+    <aside class="social-sidebar left-rail">
+      <div class="profile-card card-surface">
+        <div class="avatar avatar-large">H</div>
+        <div>
+          <strong>HYDROBOTICS</strong>
+          <p>Community hub</p>
+        </div>
+      </div>
+
+      <div class="menu-block card-surface">
+        <a href="account.html">👤 Account</a>
+        <a href="settings.html">⚙️ Settings</a>
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="feed.html">📰 Feed</a>
+        <a href="inventor.html">🧠 Inventor Portal</a>
+        <a href="faq.html">❓ Help & FAQ</a>
+      </div>
+    </aside>
+
+    <section class="social-main-column">
+      <div class="story-bar card-surface">
+        <div class="story story-one"><span>+</span><small>Your story</small></div>
+        <div class="story story-two"><span>🚀</span><small>Launch</small></div>
+        <div class="story story-three"><span>💬</span><small>Talk</small></div>
+        <div class="story story-four"><span>🧪</span><small>Labs</small></div>
+      </div>
+
+      <div class="composer card-surface" id="newPostSection">
+        <div class="composer-header">
+          <div class="avatar avatar-medium">H</div>
+          <h2>Create a post</h2>
+        </div>
+        <div id="feedAlert"></div>
+        <form id="feedForm">
+          <div class="form-row">
+            <label for="postTitle">Post Title</label>
+            <input id="postTitle" type="text" required placeholder="Post title">
+          </div>
+          <div class="form-row">
+            <label for="postBody">Post Content</label>
+            <textarea id="postBody" required placeholder="Share an idea, update, or opportunity..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit">Publish Post</button>
+            <a class="btn-secondary" href="dashboard.html">Go to Dashboard</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="reels-strip card-surface">
+        <div class="section-head">
+          <h3>Reels</h3>
+          <a href="#">Watch all</a>
+        </div>
+        <div class="reel-grid">
+          <article class="reel-card reel-one"><span>▶</span><small>Pitch Demo</small></article>
+          <article class="reel-card reel-two"><span>▶</span><small>Prototype</small></article>
+          <article class="reel-card reel-three"><span>▶</span><small>Product</small></article>
+        </div>
+      </div>
+
+      <section id="feedPosts" class="feed-posts"></section>
+    </section>
+
+    <aside class="social-sidebar right-rail">
+      <div class="card-surface notifications-panel">
+        <div class="section-head">
+          <h3>Notifications</h3>
+          <span class="badge">4</span>
+        </div>
+        <ul>
+          <li><span class="dot green"></span> Hydrobotics team liked your update</li>
+          <li><span class="dot blue"></span> New comments on your prototype post</li>
+          <li><span class="dot orange"></span> Inventor portal invitation</li>
+          <li><span class="dot purple"></span> Your settings were updated</li>
+        </ul>
+      </div>
+
+      <div class="card-surface chat-panel">
+        <div class="section-head">
+          <h3>Chat</h3>
+          <a href="#">See all</a>
+        </div>
+        <ul class="chat-list">
+          <li><span class="avatar avatar-small">A</span><div><strong>Ali</strong><small>Can we review the draft?</small></div><span class="status online"></span></li>
+          <li><span class="avatar avatar-small">M</span><div><strong>Maya</strong><small>Prototype files ready</small></div><span class="status online"></span></li>
+          <li><span class="avatar avatar-small">R</span><div><strong>Rafi</strong><small>Let’s talk logistics</small></div><span class="status away"></span></li>
+        </ul>
+      </div>
+
+      <div class="card-surface quick-links-panel">
+        <div class="section-head">
+          <h3>Account</h3>
+        </div>
+        <ul>
+          <li><a href="account.html">Account</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="login.html">Login / Register</a></li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>HYDROBOTICS static demo for GitHub Pages. Your posts are saved locally in this browser.</p>
+    </div>
+  </footer>
+  <script src="js/feed-posts.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

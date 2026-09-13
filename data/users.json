@@ -1,0 +1,53 @@
+[
+    {
+        "username": "maxkutyunga@gmail.com",
+        "password": "$2y$10$2yXWXLZADgvwhnF1NK\/wSe1DmKCCgDV7jViITHXS4FcXu9QeInW6.",
+        "role": "admin",
+        "created_at": "2026-05-23 22:32:46",
+        "gender": "male",
+        "age": 19,
+        "location": "WELKOM RIEBEECKSTAD",
+        "show_gender": 0,
+        "show_age": 0,
+        "show_location": 0,
+        "following": [
+            "maxking"
+        ]
+    },
+    {
+        "username": "maxking",
+        "password": "$2y$10$2Nq1YQHQ0QXfwkKPkohSFOYVUV7ewBQ4ZKV9bhczefbPpw68NC2xe",
+        "role": "inventor",
+        "created_at": "2026-05-24 11:18:20",
+        "gender": "male",
+        "age": 25,
+        "location": "WELKOM RIEBEECKSTAD",
+        "show_gender": 0,
+        "show_age": 0,
+        "show_location": 0,
+        "followers": [
+            "maxkutyunga@gmail.com"
+        ],
+        "email": "maxkutyunga@gmail.com",
+        "phone": "+27663363735",
+        "facebook": "maxaking",
+        "whatsapp": "0663363735",
+        "instagram": ""
+    },
+    {
+        "username": "Flatha",
+        "password": "$2y$10$TUu4yh9j8QcwsZ9rTuWTz.c35uaxEA.ojLLjJ49lrm5YlzL4IeSqC",
+        "role": "person",
+        "created_at": "2026-05-24 18:14:59",
+        "gender": "female",
+        "age": 47,
+        "location": "Matjhabeng Local Municipality",
+        "phone": "0663363735",
+        "phone_verified": 0,
+        "show_gender": 0,
+        "show_age": 0,
+        "show_location": 0,
+        "followers": [],
+        "following": []
+    }
+]

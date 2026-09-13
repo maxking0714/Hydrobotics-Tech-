@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventor - HYDROBOTICS</title>
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body data-page="inventor">
+  <nav>
+    <div class="nav-left">
+      <a class="logo" href="index.html">HYDROBOTICS</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="inventor.html">Inventor Portal</a></li>
+        <li><a href="feed.html">Social Feed</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </div>
+    <div class="nav-right">
+      <a id="authLink" class="btn-secondary" href="login.html">Login</a>
+    </div>
+  </nav>
+  <main class="page portal-animate">
+    <section class="hero inventor-hero">
+      <p class="eyebrow">Build with the right people</p>
+      <h1>From first sketch to working product</h1>
+      <p>Meet inventors, retail manufacturers, parts suppliers, 3D printing services, skilled builders, and investors who can help move a project forward.</p>
+    </section>
+
+    <section class="panel inventor-section">
+      <h2>Find project partners</h2>
+      <p class="text-muted">Use these starting points to compare services and request help with prototyping, electronics, fabrication, sourcing, and production.</p>
+      <div class="grid cards-3 inventor-partners">
+        <article class="partner-card"><span class="partner-label">PCB fabrication</span><h3>PCBWay</h3><p>PCB manufacturing, assembly, CNC, and 3D printing services.</p><a href="https://www.pcbway.com/" target="_blank" rel="noopener">Visit PCBWay</a></article>
+        <article class="partner-card"><span class="partner-label">Rapid manufacturing</span><h3>JLCPCB</h3><p>Prototype boards, assembly, components, and enclosure services.</p><a href="https://jlcpcb.com/" target="_blank" rel="noopener">Visit JLCPCB</a></article>
+        <article class="partner-card"><span class="partner-label">3D printing</span><h3>Protolabs Network</h3><p>On-demand 3D printing, CNC machining, and production support.</p><a href="https://www.hubs.com/" target="_blank" rel="noopener">Explore services</a></article>
+      </div>
+      <p class="small-note">These are independent external services. HYDROBOTICS does not endorse or represent any listed provider.</p>
+    </section>
+
+    <section class="grid cards-2 inventor-section">
+      <div class="panel">
+        <h2>Get help with your project</h2>
+        <p>Share the kind of help you need and connect with people who can contribute design, engineering, sourcing, testing, manufacturing, or business experience.</p>
+        <ul class="feature-list">
+          <li>Prototype planning and technical feedback</li>
+          <li>Parts, PCB, enclosure, and 3D print sourcing</li>
+          <li>Manufacturing introductions and production planning</li>
+          <li>Investor conversations and launch preparation</li>
+        </ul>
+      </div>
+      <div class="panel consent-panel">
+        <h2>Protect a closed deal</h2>
+        <p>Before sharing sensitive drawings, source files, formulas, or business details, agree on how information may be used and shared.</p>
+        <p class="small-note">This demo consent is a project record, not a substitute for a lawyer-drafted NDA, assignment, or copyright agreement.</p>
+        <a class="btn-secondary" href="faq.html">Read collaboration guidance</a>
+      </div>
+    </section>
+
+    <section class="panel inventor-section" id="create-profile">
+      <h2>Create a project profile</h2>
+      <p class="text-muted">Introduce yourself so the right people can find your project or skills.</p>
+      <div id="inventorProfileMessage"></div>
+      <form id="inventorProfileForm" class="form-card inventor-profile-form">
+        <div class="form-row"><label for="inventorName">Name or display name</label><input id="inventorName" required type="text" placeholder="How should people find you?"></div>
+        <div class="form-row"><label for="inventorType">I am a...</label><select id="inventorType" required><option value="project-builder">Person building a project</option><option value="skilled-helper">Skilled helper</option><option value="investor">Investor</option></select></div>
+        <div class="form-row"><label for="inventorFocus">Project, skills, or investment focus</label><input id="inventorFocus" required type="text" placeholder="Example: robotics, CAD, electronics, seed funding"></div>
+        <div class="form-row"><label for="inventorSupport">What can you offer or what help do you need?</label><textarea id="inventorSupport" required placeholder="Keep this high-level until you have agreed on confidentiality."></textarea></div>
+        <div class="form-row"><label for="inventorContact">Preferred contact</label><input id="inventorContact" required type="text" placeholder="Email, profile handle, or contact method"></div>
+        <div class="consent-checks">
+          <label><input id="closedDealConsent" required type="checkbox"> I agree to keep private project information confidential when the inventor marks a conversation as a closed deal.</label>
+          <label><input id="copyrightConsent" required type="checkbox"> I understand that copyright and ownership should be agreed in writing before sharing or reusing project materials.</label>
+        </div>
+        <button type="submit">Create Profile</button>
+      </form>
+      <p class="form-actions"><a class="btn" href="inventor-community.html">Open Inventor Community</a></p>
+    </section>
+
+    <section class="panel inventor-section" id="proposals">
+      <h2>Request help or submit a proposal</h2>
+      <p class="text-muted">Tell the community what you are building, what you can offer, or what kind of partner you need.</p>
+      <form id="proposalForm" class="form-card">
+        <div class="form-row"><label for="proposalDetails">Proposal or help request</label><textarea id="proposalDetails" required placeholder="Example: I need help turning a robotics prototype into a manufacturable design."></textarea></div>
+        <button type="submit">Send to Admin</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <p>HYDROBOTICS static demo for GitHub Pages. Inventor page now matches the shared site template.</p>
+    </div>
+  </footer>
+  <script src="js/site.js"></script>
+</body>
+</html>
