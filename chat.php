@@ -71,11 +71,60 @@ if ($selectedContact) {
     });
 }
 ?>
-<?php
-$page_title = 'Chat - HYDROBOTICS';
-include 'header.php';
-?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat - HYDROBOTICS</title>
+    <link rel="stylesheet" href="css/theme.css?v=2">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef5fb; color: #102a43; }
+        .topbar { background: #0d1b2a; color: #e0f7ff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; padding: 1rem 2rem; }
+        .topbar .brand { font-size: 1.4rem; font-weight: 700; letter-spacing: 1px; }
+        .topbar nav a { color: #e0f7ff; text-decoration: none; margin-left: 1.25rem; }
+        .topbar nav a:hover { text-decoration: underline; }
+        .layout { display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; padding: 2rem; max-width: 1270px; margin: 0 auto; min-height: calc(100vh - 80px); }
+        .panel { background: white; border-radius: 18px; padding: 1.5rem; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); }
+        .panel h2 { margin-top: 0; }
+        .conversation-item { padding: 1rem; border-radius: 12px; cursor: pointer; border: 1px solid #dbe7f0; margin-bottom: 0.75rem; transition: background 0.2s; }
+        .conversation-item:hover { background: #f0f6ff; }
+        .conversation-item.active { background: #d9edff; border-color: #00a8e8; }
+        .conversation-name { font-weight: 600; display: block; }
+        .conversation-preview { font-size: 0.85rem; color: #627d98; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .conversation-time { font-size: 0.8rem; color: #9aa7b8; }
+        .chat-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 1rem; border-bottom: 2px solid #dbe7f0; margin-bottom: 1rem; }
+        .chat-container { display: flex; flex-direction: column; height: 100%; }
+        .messages-area { flex: 1; overflow-y: auto; margin-bottom: 1rem; padding-right: 0.5rem; }
+        .messages-area::-webkit-scrollbar { width: 6px; }
+        .messages-area::-webkit-scrollbar-track { background: #f0f6ff; border-radius: 3px; }
+        .messages-area::-webkit-scrollbar-thumb { background: #00a8e8; border-radius: 3px; }
+        .message { margin-bottom: 0.75rem; display: flex; }
+        .message.sent { justify-content: flex-end; }
+        .message.received { justify-content: flex-start; }
+        .message-bubble { max-width: 75%; padding: 0.85rem 1rem; border-radius: 12px; word-wrap: break-word; }
+        .message.sent .message-bubble { background: #00a8e8; color: white; border-bottom-right-radius: 4px; }
+        .message.received .message-bubble { background: #f0f6ff; color: #102a43; border-bottom-left-radius: 4px; }
+        .message-time { font-size: 0.75rem; color: #9aa7b8; margin-top: 0.25rem; }
+        .message-form { display: grid; gap: 0.75rem; }
+        .message-form textarea { width: 100%; padding: 0.85rem 1rem; border: 1px solid #dbe7f0; border-radius: 14px; resize: vertical; min-height: 80px; font-family: inherit; }
+        .btn { display: inline-block; padding: 0.9rem 1.4rem; border-radius: 14px; background: #00a8e8; color: white; border: none; text-decoration: none; font-weight: 700; cursor: pointer; }
+        .btn:hover { opacity: 0.95; }
+        .empty-state { text-align: center; padding: 2rem; color: #627d98; }
+        .empty-state p { margin: 0.5rem 0; }
+        @media (max-width: 980px) { .layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">💬 HYDROBOTICS Chat</div>
+        <nav>
+            <a href="feed.php">Feed</a>
+            <a href="videos.php">Videos</a>
+            <a href="dashboard.php">Dashboard</a>
+        </nav>
+    </header>
     <main class="layout">
         <section class="panel">
             <h2>Conversations</h2>
@@ -86,27 +135,11 @@ include 'header.php';
                 </div>
             <?php else: ?>
                 <?php foreach ($conversations as $conv): ?>
-                    <?php $contactProfile = getUserProfile($conv['other_user']); ?>
                     <a href="chat.php?contact=<?php echo urlencode($conv['other_user']); ?>" style="text-decoration: none;">
-                        <div class="conversation-item <?php echo $selectedContact === $conv['other_user'] ? 'active' : ''; ?>" style="display: flex; gap: 1rem; align-items: center;">
-                            <?php 
-                                $profilePicPath = '';
-                                if (!empty($contactProfile['profile_picture'])) {
-                                    $profilePicPath = 'data/profile_pictures/' . htmlspecialchars($contactProfile['profile_picture']);
-                                }
-                            ?>
-                            <?php if ($profilePicPath && file_exists($profilePicPath)): ?>
-                                <img src="<?php echo $profilePicPath; ?>" alt="<?php echo htmlspecialchars($conv['other_user']); ?>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
-                            <?php else: ?>
-                                <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #00a8e8, #0d3b66); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem; flex-shrink: 0;">
-                                    <?php echo htmlspecialchars(strtoupper(substr($conv['other_user'], 0, 2))); ?>
-                                </div>
-                            <?php endif; ?>
-                            <div style="flex: 1; min-width: 0;">
-                                <span class="conversation-name"><?php echo htmlspecialchars($conv['other_user']); ?></span>
-                                <span class="conversation-preview"><?php echo htmlspecialchars(mb_strimwidth($conv['last_message'], 0, 50, '...')); ?></span>
-                                <span class="conversation-time"><?php echo date('M d, H:i', strtotime($conv['last_time'])); ?></span>
-                            </div>
+                        <div class="conversation-item <?php echo $selectedContact === $conv['other_user'] ? 'active' : ''; ?>">
+                            <span class="conversation-name"><?php echo htmlspecialchars($conv['other_user']); ?></span>
+                            <span class="conversation-preview"><?php echo htmlspecialchars(mb_strimwidth($conv['last_message'], 0, 50, '...')); ?></span>
+                            <span class="conversation-time"><?php echo date('M d, H:i', strtotime($conv['last_time'])); ?></span>
                         </div>
                     </a>
                 <?php endforeach; ?>
@@ -127,23 +160,7 @@ include 'header.php';
                             </div>
                         <?php else: ?>
                             <?php foreach ($chatMessages as $msg): ?>
-                                <?php $msgSenderProfile = getUserProfile($msg['sender']); ?>
-                                <div class="message <?php echo $msg['sender'] === $user ? 'sent' : 'received'; ?>" style="display: flex; gap: 0.5rem; <?php echo $msg['sender'] === $user ? 'justify-content: flex-end;' : ''; ?>">
-                                    <?php if ($msg['sender'] !== $user): ?>
-                                        <?php 
-                                            $profilePicPath = '';
-                                            if (!empty($msgSenderProfile['profile_picture'])) {
-                                                $profilePicPath = 'data/profile_pictures/' . htmlspecialchars($msgSenderProfile['profile_picture']);
-                                            }
-                                        ?>
-                                        <?php if ($profilePicPath && file_exists($profilePicPath)): ?>
-                                            <img src="<?php echo $profilePicPath; ?>" alt="<?php echo htmlspecialchars($msg['sender']); ?>" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0; margin-top: 0.25rem;">
-                                        <?php else: ?>
-                                            <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #00a8e8, #0d3b66); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.8rem; flex-shrink: 0;">
-                                                <?php echo htmlspecialchars(strtoupper(substr($msg['sender'], 0, 1))); ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
+                                <div class="message <?php echo $msg['sender'] === $user ? 'sent' : 'received'; ?>">
                                     <div>
                                         <div class="message-bubble"><?php echo htmlspecialchars($msg['message']); ?></div>
                                         <div class="message-time" style="text-align: <?php echo $msg['sender'] === $user ? 'right' : 'left'; ?>;">
@@ -176,5 +193,6 @@ include 'header.php';
             messagesArea.scrollTop = messagesArea.scrollHeight;
         }
     </script>
-<?php include 'footer.php'; ?>
-
+<?php include 'ai_chatbot_widget.php'; ?>
+</body>
+</html>

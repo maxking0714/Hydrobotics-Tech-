@@ -29,11 +29,32 @@ $logs = getAdminLogLines(1000);
 $helpRequests = loadHelpRequests();
 $pendingRequests = array_values(array_filter($helpRequests, fn($req) => isset($req['status']) && $req['status'] === 'pending'));
 ?>
-<?php
-$page_title = 'Admin Log - HYDROBOTICS';
-include 'header.php';
-?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Log - HYDROBOTICS</title>
+    <link rel="stylesheet" href="css/theme.css?v=2">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f2f6fb; color: #102a43; }
+        .page { max-width: 1180px; margin: 0 auto; padding: 2rem; }
+        .top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+        .top h1 { margin: 0; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1rem; }
+        .card { background: white; border-radius: 18px; padding: 1.4rem; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); }
+        .card h3 { margin: 0 0 0.75rem; }
+        .log-list { background: white; border-radius: 18px; padding: 1.5rem; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); max-height: 500px; overflow-y: auto; }
+        .log-item { padding: 0.85rem 0; border-bottom: 1px solid #e6eef6; }
+        .log-item:last-child { border-bottom: none; }
+        .btn { display: inline-block; padding: 0.85rem 1.3rem; color: white; background: #00a8e8; border-radius: 14px; text-decoration: none; font-weight: 700; }
+        .note { margin-top: 1rem; color: #627d98; }
+        .alert-banner { background: #fff4e5; border: 1px solid #ffd59e; color: #8a5c00; padding: 1rem 1.2rem; border-radius: 14px; margin-bottom: 1rem; }
+        @media (max-width: 760px) { .top { flex-direction: column; align-items: stretch; } }
+    </style>
+</head>
+<body>
     <div class="page">
         <div class="top">
             <div>
@@ -166,5 +187,6 @@ include 'header.php';
             });
         </script>
     <?php endif; ?>
-    <?php include 'footer.php'; ?>
-
+    <?php include 'ai_chatbot_widget.php'; ?>
+</body>
+</html>

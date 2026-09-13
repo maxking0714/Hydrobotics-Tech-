@@ -77,11 +77,68 @@ foreach ($userPosts as $post) {
 $followers = $profile['followers'] ?? [];
 $following = $profile['following'] ?? [];
 ?>
-<?php
-$page_title = ($user ? htmlspecialchars($user) . "'s Account - HYDROBOTICS" : 'Account - HYDROBOTICS');
-include 'header.php';
-?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><?php echo htmlspecialchars($user); ?> Account - HYDROBOTICS</title>
+    <link rel="stylesheet" href="css/theme.css?v=2">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef5fb; color: #102a43; }
+        .page { max-width: 1180px; margin: 0 auto; padding: 2rem; }
+        .nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap; }
+        .nav h1 { margin: 0; }
+        .nav a, .nav button { display: inline-block; padding: 0.85rem 1.3rem; background: #00a8e8; color: white; text-decoration: none; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; }
+        .nav a:hover, .nav button:hover { background: #0099d5; }
+        .profile-header { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: white; padding: 2rem; border-radius: 18px; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); margin-bottom: 2rem; }
+        .profile-info h2 { margin-top: 0; }
+        .stat-row { display: flex; gap: 2rem; margin: 1rem 0; }
+        .stat { background: #f0f7ff; padding: 1rem; border-radius: 12px; text-align: center; flex: 1; }
+        .stat strong { display: block; font-size: 1.5rem; color: #00a8e8; }
+        .stat span { display: block; color: #627d98; font-size: 0.9rem; }
+        .panel { background: white; border-radius: 18px; padding: 2rem; box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); margin-bottom: 2rem; }
+        .panel h2 { margin-top: 0; }
+        form { display: flex; flex-direction: column; gap: 1rem; }
+        label { font-weight: 600; }
+        input[type="text"], input[type="number"], textarea, select {
+            padding: 0.85rem 1rem;
+            border: 1px solid #d4e0f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        textarea { resize: vertical; min-height: 120px; }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #00a8e8;
+            box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.1);
+        }
+        .checkbox-group { display: flex; align-items: center; gap: 0.5rem; }
+        .checkbox-group input { width: auto; }
+        .btn { padding: 0.9rem 1.5rem; background: #00a8e8; color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; }
+        .btn:hover { background: #0099d5; }
+        .btn-danger { background: #ff6b6b; }
+        .btn-danger:hover { background: #e85555; }
+        .error { background: #ffe6e6; border-left: 4px solid #ff6b6b; padding: 1rem; border-radius: 8px; color: #c92a2a; margin-bottom: 1rem; }
+        .success { background: #e6ffe6; border-left: 4px solid #51cf66; padding: 1rem; border-radius: 8px; color: #2b8a3e; margin-bottom: 1rem; }
+        .post-item { padding: 1.5rem; border: 1px solid #e6eef6; border-radius: 12px; margin-bottom: 1rem; background: #f9fbff; }
+        .post-item h3 { margin: 0 0 0.5rem; }
+        .post-meta { font-size: 0.85rem; color: #627d98; margin-bottom: 1rem; }
+        .post-content { margin: 1rem 0; }
+        .post-stats { display: flex; gap: 1.5rem; font-size: 0.9rem; color: #627d98; margin: 1rem 0; }
+        .post-actions { display: flex; gap: 0.75rem; }
+        .post-actions form { flex-direction: row; margin: 0; }
+        .post-actions button { padding: 0.6rem 1rem; font-size: 0.9rem; }
+        .empty { text-align: center; color: #627d98; padding: 2rem; }
+        @media (max-width: 800px) {
+            .profile-header { grid-template-columns: 1fr; }
+            .stat-row { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
     <div class="page">
         <div class="nav">
             <h1><?php echo htmlspecialchars($user); ?>'s Account</h1>
@@ -90,6 +147,7 @@ include 'header.php';
                 <a href="dashboard.php">📊 Dashboard</a>
                 <a href="settings.php">⚙️ Settings</a>
             </div>
+        </div>
 
         <?php if ($error): ?>
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
@@ -101,21 +159,6 @@ include 'header.php';
         <div class="profile-header">
             <div class="profile-info">
                 <h2>Profile</h2>
-                <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <?php 
-                        $profilePicPath = '';
-                        if (!empty($profile['profile_picture'])) {
-                            $profilePicPath = 'data/profile_pictures/' . htmlspecialchars($profile['profile_picture']);
-                        }
-                    ?>
-                    <?php if ($profilePicPath && file_exists($profilePicPath)): ?>
-                        <img src="<?php echo $profilePicPath; ?>" alt="<?php echo htmlspecialchars($user); ?>" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #00a8e8;">
-                    <?php else: ?>
-                        <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #00a8e8, #0d3b66); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 2rem; margin: 0 auto; border: 3px solid #00a8e8;">
-                            <?php echo htmlspecialchars(strtoupper(substr($user, 0, 2))); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
                 <div>
                     <strong>Username:</strong> <?php echo htmlspecialchars($user); ?>
                 </div>
@@ -126,7 +169,7 @@ include 'header.php';
                     <strong>Location:</strong> <?php echo $profile['location'] ? htmlspecialchars($profile['location']) : 'Not specified'; ?>
                 </div>
                 <div style="margin-top: 0.75rem;">
-                    <strong>Phone:</strong> <?php echo $profile['phone'] ? htmlspecialchars($profile['phone']) : 'Not specified'; ?>
+                    <strong>Phone:</strong> <?php echo $profile['phone'] ? htmlspecialchars($profile['phone']) : 'Not specified'    ; ?>
                 </div>
                 <div style="margin-top: 0.75rem;">
                     <strong>Email:</strong> <?php echo $profile['email'] ? '<a href="mailto:' . htmlspecialchars($profile['email']) . '">' . htmlspecialchars($profile['email']) . '</a>' : 'Not specified'; ?>
@@ -230,5 +273,6 @@ include 'header.php';
             <?php endif; ?>
         </div>
     </div>
-<?php include 'footer.php'; ?>
-
+<?php include 'ai_chatbot_widget.php'; ?>
+</body>
+</html>

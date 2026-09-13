@@ -19,3 +19,4 @@
 [2026-05-25 07:33:40] EDIT_STORY user=maxking post=post_6a12c2c4cb0968.43358213
 [2026-05-25 12:12:51] POST author=maxking title=hydrobotics platform allow_share=1 media_type=image
 [2026-05-25 12:20:03] POST author=maxking title=apprentice guide allow_share=0 media_type=image
+[2026-06-03 22:08:46] HELP_REQUEST user=maxking

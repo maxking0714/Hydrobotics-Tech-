@@ -1,8 +1,23 @@
-<?php
-$page_title = 'FAQ - HYDROBOTICS';
-include 'header.php';
-?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQ - HYDROBOTICS</title>
+    <link rel="stylesheet" href="css/theme.css?v=2">
+    <style>
+        body { margin: 0; background: #f4f8ff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #102a43; }
+        .page { max-width: 980px; margin: 0 auto; padding: 2rem; }
+        h1 { margin-bottom: 0.5rem; }
+        .question { margin-top: 1.5rem; }
+        .question h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .question p { margin: 0; line-height: 1.75; color: #334e68; }
+        .nav { margin-bottom: 2rem; }
+        .nav a { color: #00a8e8; text-decoration: none; margin-right: 1rem; }
+        .nav a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
     <div class="page">
         <div class="nav">
             <a href="HOMEPAGE.PHP">Home</a>
@@ -28,6 +43,6 @@ include 'header.php';
             <p>After logging in, the dashboard page displays your profile, session details, and a summary of your posts and community activity.</p>
         </div>
     </div>
-
-<?php include 'footer.php'; ?>
-
+<?php include 'ai_chatbot_widget.php'; ?>
+</body>
+</html>
